@@ -1,0 +1,21 @@
+[package]
+name = "ttpm"
+authors = ["Tyler Tran <mail@tylertran.net>"]
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = { version = "1.0.75" }
+clap = { version = "4.4.2", features = ["derive", "string"] }
+log = { version = "0.4.20" }
+sendgrid = { version = "0.19.2", features = ["async"] }
+serde = { version = "1.0.188", features = ["derive"] }
+serde_json  = { version = "1.0.105" }
+simple-logging = { version = "2.0.2" }
+time = { version = "0.3.28", features = ["macros", "parsing"] }
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.11.20", features = ["json"] }
+
+[dev-dependencies]
