@@ -9,7 +9,6 @@ A command line tool for monitoring the trusted traveler program interview sites 
 # TODO
 - Support watching multiple locations
 - Support alerting multiple emails
-- CI Pipeline
 - Docker support
 - Unit Tests
 - SMS Notifications
