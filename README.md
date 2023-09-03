@@ -5,11 +5,3 @@ A command line tool for monitoring the trusted traveler program interview sites 
 * Email notifications using SendGrid
 * Periodic monitoring for Global Entry Interview slots
 * Command line interface
-
-# TODO
-- Support watching multiple locations
-- Support alerting multiple emails
-- Docker support
-- Unit Tests
-- SMS Notifications
-- SENTRI/NEXUS/U.S. / Canada FAST Monitoring
