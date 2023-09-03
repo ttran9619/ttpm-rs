@@ -11,24 +11,30 @@ mod watcher;
 #[derive(clap::Parser, Debug)]
 #[command(name="Trusted Traveler Program Monitoring",author, version, about, long_about = None)]
 struct Args {
+    /// The location to monitor. Must be a valid string contained in a location's name
     #[arg(short, long)]
     location: String,
 
+    /// Set to use email alerting
     #[arg(short, long)]
     email: Option<String>,
 
+    /// The polling period in seconds
     #[arg(value_parser = |arg: &str| -> Result<Duration> {Ok(Duration::seconds(arg.parse()?))})]
     #[arg(long, default_value = "30")]
     poll_period: Duration,
 
+    /// The path to the sendgrid secret
     #[arg(long, default_value=Path::new("sendgrid.secret").to_path_buf().into_os_string())]
     sendgrid_config_path: PathBuf,
 
-    #[arg(long, default_value=Path::new("locations.json").to_path_buf().into_os_string())]
+    /// The path to the location cache. This should be a json file containing a list of locations returned from the TTP API.
+    #[arg(long)]
     location_cache_path: Option<PathBuf>,
 
+    /// The path to the log file
     #[arg(long, default_value=Path::new("debug.log").to_path_buf().into_os_string())]
-    log_path: Option<PathBuf>,
+    log_path: PathBuf,
 }
 
 #[tokio::main]
@@ -50,8 +56,8 @@ async fn main() -> Result<()> {
     let mut set = tokio::task::JoinSet::new();
 
     // Register file logging backend
-    if let Some(log_file) = args.log_path {
-        log_to_file(log_file, log::LevelFilter::Info)?;
+    {
+        log_to_file(args.log_path, log::LevelFilter::Info)?;
         let mut logging_responder = responder::logging::Logging::new(watcher.get_receiver())?;
         set.spawn(async move { logging_responder.run().await });
     }
