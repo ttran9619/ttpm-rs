@@ -1,4 +1,4 @@
-use anyhow::{Error, Result};
+use anyhow::Result;
 use clap::Parser;
 use simple_logging::log_to_file;
 use std::path::{Path, PathBuf};
