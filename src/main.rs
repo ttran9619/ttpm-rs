@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{Error, Result};
 use clap::Parser;
 use simple_logging::log_to_file;
 use std::path::{Path, PathBuf};
@@ -73,7 +73,15 @@ async fn main() -> Result<()> {
     let location_string = args.location;
     set.spawn(async move { watcher.watch(location_string.as_str()).await });
 
-    set.join_next().await;
+    if let Some(join_result) = set.join_next().await {
+        println!("Task exited");
+        set.abort_all();
+        if let Ok(task_result) = join_result {
+            if let Err(task_error) = task_result {
+                println!("{}", task_error);
+            }
+        }
+    }
 
     Ok(())
 }
